@@ -1,5 +1,5 @@
 # opa-java-client
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client) ![build](https://github.com/Bisnode/opa-java-client/workflows/build/badge.svg)
 
 OPA java client is a wrapper for OPA rest API. The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
  - creating documents
