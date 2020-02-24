@@ -17,6 +17,8 @@ repositories {
 java {
     sourceCompatibility = VERSION_11
     targetCompatibility = VERSION_11
+    withJavadocJar()
+    withSourcesJar()
 }
 dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.8")
@@ -32,6 +34,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+tasks.javadoc {
+    source = sourceSets["main"].allJava
 }
 
 publishing {

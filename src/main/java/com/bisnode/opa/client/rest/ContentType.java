@@ -1,5 +1,8 @@
 package com.bisnode.opa.client.rest;
 
+/**
+ * Content-Type header related information
+ */
 public interface ContentType {
     interface Values {
         String APPLICATION_JSON = "application/json";

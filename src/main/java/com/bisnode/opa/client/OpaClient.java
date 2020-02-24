@@ -16,6 +16,12 @@ import java.net.http.HttpClient;
 
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * @see com.bisnode.opa.client.policy.OpaPolicyApi
+ * @see com.bisnode.opa.client.data.OpaDataApi
+ * @see com.bisnode.opa.client.query.OpaQueryApi
+ */
+
 @RequiredArgsConstructor(access = PRIVATE)
 public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
 
@@ -26,13 +32,22 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
     @Delegate
     private final OpaPolicyApi opaPolicyApi;
 
+    /**
+     * @return builder for {@link OpaClient}
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Builder for {@link OpaClient}
+     */
     public static class Builder {
-        OpaConfiguration opaConfiguration;
+        private OpaConfiguration opaConfiguration;
 
+        /**
+         * @param url URL including protocol and port
+         */
         public Builder opaConfiguration(String url) {
             this.opaConfiguration = new OpaConfiguration(url);
             return this;
