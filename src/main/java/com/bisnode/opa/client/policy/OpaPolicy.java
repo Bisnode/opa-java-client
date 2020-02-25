@@ -28,29 +28,25 @@ public final class OpaPolicy {
         return this.content;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof OpaPolicy)) return false;
-        final OpaPolicy other = (OpaPolicy) o;
-        final Object this$id = this.getId();
-        final Object other$id = other.getId();
-        if (!Objects.equals(this$id, other$id)) return false;
-        final Object this$content = this.getContent();
-        final Object other$content = other.getContent();
-        return Objects.equals(this$content, other$content);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OpaPolicy opaPolicy = (OpaPolicy) o;
+        return Objects.equals(id, opaPolicy.id) &&
+                Objects.equals(content, opaPolicy.content);
     }
 
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $id = this.getId();
-        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $content = this.getContent();
-        result = result * PRIME + ($content == null ? 43 : $content.hashCode());
-        return result;
+        return Objects.hash(id, content);
     }
 
+    @Override
     public String toString() {
-        return "OpaPolicy(id=" + this.getId() + ", content=" + this.getContent() + ")";
+        return "OpaPolicy{" +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

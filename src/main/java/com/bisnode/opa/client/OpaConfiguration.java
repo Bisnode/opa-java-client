@@ -24,24 +24,23 @@ public final class OpaConfiguration {
         return this.url;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof OpaConfiguration)) return false;
-        final OpaConfiguration other = (OpaConfiguration) o;
-        final Object this$url = this.getUrl();
-        final Object other$url = other.getUrl();
-        return Objects.equals(this$url, other$url);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OpaConfiguration that = (OpaConfiguration) o;
+        return Objects.equals(url, that.url);
     }
 
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $url = this.getUrl();
-        result = result * PRIME + ($url == null ? 43 : $url.hashCode());
-        return result;
+        return Objects.hash(url);
     }
 
+    @Override
     public String toString() {
-        return "OpaConfiguration(url=" + this.getUrl() + ")";
+        return "OpaConfiguration{" +
+                "url='" + url + '\'' +
+                '}';
     }
 }

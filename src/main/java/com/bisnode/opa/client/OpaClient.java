@@ -21,7 +21,6 @@ import static lombok.AccessLevel.PRIVATE;
  * @see com.bisnode.opa.client.data.OpaDataApi
  * @see com.bisnode.opa.client.query.OpaQueryApi
  */
-
 @RequiredArgsConstructor(access = PRIVATE)
 public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
 

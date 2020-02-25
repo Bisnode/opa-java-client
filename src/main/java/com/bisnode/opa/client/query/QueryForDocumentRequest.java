@@ -12,7 +12,7 @@ public final class QueryForDocumentRequest {
 
     /**
      * @param input Query input
-     * @param path Path to the document (eg. "this/is/path/to/document")
+     * @param path  Path to the document (eg. "this/is/path/to/document")
      */
     @ConstructorProperties({"input", "path"})
     public QueryForDocumentRequest(Object input, String path) {
@@ -28,29 +28,25 @@ public final class QueryForDocumentRequest {
         return this.path;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof QueryForDocumentRequest)) return false;
-        final QueryForDocumentRequest other = (QueryForDocumentRequest) o;
-        final Object this$input = this.getInput();
-        final Object other$input = other.getInput();
-        if (!Objects.equals(this$input, other$input)) return false;
-        final Object this$path = this.getPath();
-        final Object other$path = other.getPath();
-        return Objects.equals(this$path, other$path);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QueryForDocumentRequest that = (QueryForDocumentRequest) o;
+        return Objects.equals(input, that.input) &&
+                Objects.equals(path, that.path);
     }
 
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $input = this.getInput();
-        result = result * PRIME + ($input == null ? 43 : $input.hashCode());
-        final Object $path = this.getPath();
-        result = result * PRIME + ($path == null ? 43 : $path.hashCode());
-        return result;
+        return Objects.hash(input, path);
     }
 
+    @Override
     public String toString() {
-        return "QueryForDocumentRequest(input=" + this.getInput() + ", path=" + this.getPath() + ")";
+        return "QueryForDocumentRequest{" +
+                "input=" + input +
+                ", path='" + path + '\'' +
+                '}';
     }
 }

@@ -11,7 +11,6 @@ import java.net.http.HttpResponse;
 /**
  * @see com.bisnode.opa.client.policy.OpaPolicyApi
  */
-
 @RequiredArgsConstructor
 public class OpaPolicyClient implements OpaPolicyApi {
     public static final String POLICY_ENDPOINT = "/v1/policies/";

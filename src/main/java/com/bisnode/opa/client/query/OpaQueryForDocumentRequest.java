@@ -15,24 +15,23 @@ final class OpaQueryForDocumentRequest {
         return this.input;
     }
 
-    public boolean equals(final Object o) {
-        if (o == this) return true;
-        if (!(o instanceof OpaQueryForDocumentRequest)) return false;
-        final OpaQueryForDocumentRequest other = (OpaQueryForDocumentRequest) o;
-        final Object this$input = this.getInput();
-        final Object other$input = other.getInput();
-        return Objects.equals(this$input, other$input);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OpaQueryForDocumentRequest that = (OpaQueryForDocumentRequest) o;
+        return Objects.equals(input, that.input);
     }
 
+    @Override
     public int hashCode() {
-        final int PRIME = 59;
-        int result = 1;
-        final Object $input = this.getInput();
-        result = result * PRIME + ($input == null ? 43 : $input.hashCode());
-        return result;
+        return Objects.hash(input);
     }
 
+    @Override
     public String toString() {
-        return "OpaQueryForDocumentRequest(input=" + this.getInput() + ")";
+        return "OpaQueryForDocumentRequest{" +
+                "input=" + input +
+                '}';
     }
 }

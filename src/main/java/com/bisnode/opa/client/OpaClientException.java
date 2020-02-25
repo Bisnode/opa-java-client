@@ -2,7 +2,7 @@ package com.bisnode.opa.client;
 
 /**
  * Exception returned by {@link OpaClient}
- * All exception that will be thrown inside {@link OpaClient} will be mapped to this one
+ * All exceptions that will be thrown inside {@link OpaClient} will be mapped to this one
  */
 public class OpaClientException extends RuntimeException {
     public OpaClientException() {

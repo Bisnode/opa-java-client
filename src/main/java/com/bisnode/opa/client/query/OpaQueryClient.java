@@ -13,7 +13,6 @@ import java.util.Objects;
 /**
  * @see com.bisnode.opa.client.query.OpaQueryApi
  */
-
 @RequiredArgsConstructor
 public class OpaQueryClient implements OpaQueryApi {
     private static final String EVALUATE_POLICY_ENDPOINT = "/v1/data/";
