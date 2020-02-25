@@ -3,7 +3,9 @@ package com.bisnode.opa.client.rest;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+/**
+ * Creates and configures {@link ObjectMapper}
+ */
 public class ObjectMapperFactory {
 
     private static final ObjectMapperFactory instance = new ObjectMapperFactory();

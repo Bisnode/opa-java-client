@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * @see com.bisnode.opa.client.data.OpaDataApi
+ */
 @RequiredArgsConstructor
 public class OpaDataClient implements OpaDataApi {
     private static final String DATA_ENDPOINT = "/v1/data/";
