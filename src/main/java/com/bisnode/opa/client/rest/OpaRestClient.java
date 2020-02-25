@@ -2,10 +2,10 @@ package com.bisnode.opa.client.rest;
 
 import com.bisnode.opa.client.OpaClientException;
 import com.bisnode.opa.client.OpaConfiguration;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,7 +21,6 @@ public class OpaRestClient {
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    @ConstructorProperties({"opaConfiguration", "httpClient", "objectMapper"})
     public OpaRestClient(OpaConfiguration opaConfiguration, HttpClient httpClient, ObjectMapper objectMapper) {
         this.opaConfiguration = opaConfiguration;
         this.httpClient = httpClient;
@@ -42,7 +41,7 @@ public class OpaRestClient {
      *
      * @param body object to be serialized
      */
-    public HttpRequest.BodyPublisher getJsonBodyPublisher(Object body) {
+    public HttpRequest.BodyPublisher getJsonBodyPublisher(Object body) throws JsonProcessingException {
         return JsonBodyPublisher.of(body, objectMapper);
     }
 
@@ -59,9 +58,9 @@ public class OpaRestClient {
     /**
      * Sends provided request and returns response mapped using {@link java.net.http.HttpResponse.BodyHandler}
      *
-     * @param request request to be sent
+     * @param request     request to be sent
      * @param bodyHandler handler that indicates how to transform incoming body
-     * @param <T> Type of returned body
+     * @param <T>         Type of returned body
      * @return response from HttpRequest
      * @throws IOException          is propagated from {@link HttpClient}
      * @throws InterruptedException is propagated from {@link HttpClient}

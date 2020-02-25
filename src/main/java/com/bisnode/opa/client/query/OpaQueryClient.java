@@ -5,7 +5,6 @@ import com.bisnode.opa.client.rest.ContentType;
 import com.bisnode.opa.client.rest.OpaRestClient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import lombok.RequiredArgsConstructor;
 
 import java.net.http.HttpRequest;
 import java.util.Objects;
@@ -13,12 +12,15 @@ import java.util.Objects;
 /**
  * @see com.bisnode.opa.client.query.OpaQueryApi
  */
-@RequiredArgsConstructor
 public class OpaQueryClient implements OpaQueryApi {
     private static final String EVALUATE_POLICY_ENDPOINT = "/v1/data/";
     private static final String EMPTY_RESULT_ERROR_MESSAGE = "Result is empty, it may indicate that document under path [%s] does not exist";
 
     private final OpaRestClient opaRestClient;
+
+    public OpaQueryClient(OpaRestClient opaRestClient) {
+        this.opaRestClient = opaRestClient;
+    }
 
     @Override
     public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, Class<R> responseType) {

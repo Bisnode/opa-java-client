@@ -3,39 +3,59 @@ package com.bisnode.opa.client;
 
 import com.bisnode.opa.client.data.OpaDataApi;
 import com.bisnode.opa.client.data.OpaDataClient;
+import com.bisnode.opa.client.data.OpaDocument;
+import com.bisnode.opa.client.policy.OpaPolicy;
 import com.bisnode.opa.client.policy.OpaPolicyApi;
 import com.bisnode.opa.client.policy.OpaPolicyClient;
 import com.bisnode.opa.client.query.OpaQueryApi;
 import com.bisnode.opa.client.query.OpaQueryClient;
+import com.bisnode.opa.client.query.QueryForDocumentRequest;
 import com.bisnode.opa.client.rest.ObjectMapperFactory;
 import com.bisnode.opa.client.rest.OpaRestClient;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 
 import java.net.http.HttpClient;
 
-import static lombok.AccessLevel.PRIVATE;
-
 /**
- * @see com.bisnode.opa.client.policy.OpaPolicyApi
- * @see com.bisnode.opa.client.data.OpaDataApi
- * @see com.bisnode.opa.client.query.OpaQueryApi
+ * Opa client featuring {@link OpaDataApi}, {@link OpaQueryApi} and {@link OpaPolicyApi}
  */
-@RequiredArgsConstructor(access = PRIVATE)
 public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
 
-    @Delegate
     private final OpaQueryApi opaQueryApi;
-    @Delegate
     private final OpaDataApi opaDataApi;
-    @Delegate
     private final OpaPolicyApi opaPolicyApi;
+
+    private OpaClient(OpaQueryApi opaQueryApi, OpaDataApi opaDataApi, OpaPolicyApi opaPolicyApi) {
+        this.opaQueryApi = opaQueryApi;
+        this.opaDataApi = opaDataApi;
+        this.opaPolicyApi = opaPolicyApi;
+    }
 
     /**
      * @return builder for {@link OpaClient}
      */
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * @see com.bisnode.opa.client.query.OpaQueryApi
+     */
+    public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, Class<R> responseType) {
+        return this.opaQueryApi.queryForDocument(queryForDocumentRequest, responseType);
+    }
+
+    /**
+     * @see com.bisnode.opa.client.data.OpaDataApi
+     */
+    public void createOrOverwriteDocument(OpaDocument document) {
+        this.opaDataApi.createOrOverwriteDocument(document);
+    }
+
+    /**
+     * @see com.bisnode.opa.client.policy.OpaPolicyApi
+     */
+    public void createOrUpdatePolicy(OpaPolicy policy) {
+        this.opaPolicyApi.createOrUpdatePolicy(policy);
     }
 
     /**
