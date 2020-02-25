@@ -3,7 +3,6 @@ package com.bisnode.opa.client.policy;
 import com.bisnode.opa.client.OpaClientException;
 import com.bisnode.opa.client.rest.ContentType;
 import com.bisnode.opa.client.rest.OpaRestClient;
-import lombok.RequiredArgsConstructor;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -11,11 +10,14 @@ import java.net.http.HttpResponse;
 /**
  * @see com.bisnode.opa.client.policy.OpaPolicyApi
  */
-@RequiredArgsConstructor
 public class OpaPolicyClient implements OpaPolicyApi {
     public static final String POLICY_ENDPOINT = "/v1/policies/";
 
     private final OpaRestClient opaRestClient;
+
+    public OpaPolicyClient(OpaRestClient opaRestClient) {
+        this.opaRestClient = opaRestClient;
+    }
 
     @Override
     public void createOrUpdatePolicy(OpaPolicy policy) {

@@ -2,7 +2,6 @@ package com.bisnode.opa.client.rest;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,11 +10,15 @@ import java.net.http.HttpResponse;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@RequiredArgsConstructor
 class JsonBodyHandler<T> implements HttpResponse.BodyHandler<Supplier<T>> {
 
     private final JavaType responseType;
     private final ObjectMapper objectMapper;
+
+    public JsonBodyHandler(JavaType responseType, ObjectMapper objectMapper) {
+        this.responseType = responseType;
+        this.objectMapper = objectMapper;
+    }
 
     public static <W> HttpResponse.BodySubscriber<Supplier<W>> asJSON(JavaType responseType, ObjectMapper objectMapper) {
         HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();

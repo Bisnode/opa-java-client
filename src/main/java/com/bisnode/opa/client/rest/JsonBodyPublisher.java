@@ -1,8 +1,8 @@
 package com.bisnode.opa.client.rest;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 
 import java.net.http.HttpRequest;
 import java.nio.ByteBuffer;
@@ -12,12 +12,11 @@ class JsonBodyPublisher implements HttpRequest.BodyPublisher {
 
     private final HttpRequest.BodyPublisher stringBodyPublisher;
 
-    public static HttpRequest.BodyPublisher of(Object body, ObjectMapper objectMapper) {
+    public static HttpRequest.BodyPublisher of(Object body, ObjectMapper objectMapper) throws JsonProcessingException {
         return new JsonBodyPublisher(body, objectMapper);
     }
 
-    @SneakyThrows
-    public JsonBodyPublisher(Object body, ObjectMapper objectMapper) {
+    public JsonBodyPublisher(Object body, ObjectMapper objectMapper) throws JsonProcessingException {
         this.stringBodyPublisher = HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(body));
     }
 

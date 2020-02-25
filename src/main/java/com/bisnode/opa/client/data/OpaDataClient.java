@@ -3,7 +3,6 @@ package com.bisnode.opa.client.data;
 import com.bisnode.opa.client.OpaClientException;
 import com.bisnode.opa.client.rest.ContentType;
 import com.bisnode.opa.client.rest.OpaRestClient;
-import lombok.RequiredArgsConstructor;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -11,11 +10,14 @@ import java.net.http.HttpResponse;
 /**
  * @see com.bisnode.opa.client.data.OpaDataApi
  */
-@RequiredArgsConstructor
 public class OpaDataClient implements OpaDataApi {
     private static final String DATA_ENDPOINT = "/v1/data/";
 
     private final OpaRestClient opaRestClient;
+
+    public OpaDataClient(OpaRestClient opaRestClient) {
+        this.opaRestClient = opaRestClient;
+    }
 
     @Override
     public void createOrOverwriteDocument(OpaDocument document) {

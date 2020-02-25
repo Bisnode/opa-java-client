@@ -17,9 +17,6 @@ java {
     withSourcesJar()
 }
 dependencies {
-    annotationProcessor("org.projectlombok:lombok:1.18.8")
-    compileOnly("org.projectlombok:lombok:1.18.8")
-
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.2")
 
     testImplementation("org.codehaus.groovy:groovy-all:2.5.9")
