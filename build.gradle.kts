@@ -10,10 +10,6 @@ plugins {
     `maven-publish`
 }
 
-repositories {
-    mavenCentral()
-}
-
 java {
     sourceCompatibility = VERSION_11
     targetCompatibility = VERSION_11
@@ -24,9 +20,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.8")
     compileOnly("org.projectlombok:lombok:1.18.8")
 
-    implementation("org.codehaus.groovy:groovy-all:2.5.9")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.2")
 
+    testImplementation("org.codehaus.groovy:groovy-all:2.5.9")
     testImplementation(platform("org.spockframework:spock-bom:2.0-M1-groovy-2.5"))
     testImplementation("org.spockframework:spock-core")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.26.0")
@@ -42,7 +38,23 @@ tasks.javadoc {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            artifactId = "opa-java-client"
             from(components["java"])
+            pom {
+                name.set("OPA Java Client")
+                description.set("Lightweight Java library for Open Policy Agent")
+                url.set("https://github.com/Bisnode/opa-java-client")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        distribution.set("repo")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/Bisnode/opa-java-client")
+                }
+            }
         }
     }
 }
