@@ -49,7 +49,7 @@ publishing {
                     }
                 }
                 scm {
-                    url.set("https://github.com/Bisnode/opa-java-client")
+                    url.set("https://github.com/Bisnode/opa-java-client.git")
                 }
             }
         }
