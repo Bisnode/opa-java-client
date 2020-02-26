@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 /**
  * Class wrapping Java's HttpClient in OPA and JSON requests
@@ -31,9 +32,12 @@ public class OpaRestClient {
      * Create {@link java.net.http.HttpRequest.Builder} with configured url using provided endpoint
      *
      * @param endpoint desired opa endpoint
+     * @throws OpaClientException if URL or endpoint is invalid
      */
     public HttpRequest.Builder getBasicRequestBuilder(String endpoint) {
-        return HttpRequest.newBuilder(URI.create(opaConfiguration.getUrl() + endpoint));
+        String url = opaConfiguration.getUrl() + "/" + Optional.ofNullable(endpoint).orElseThrow(() -> new OpaClientException("Invalid endpoint: " + endpoint));
+        String normalizedUrl = UrlNormalizer.normalize(url).orElseThrow(() -> new OpaClientException("Invalid url: " + url));
+        return HttpRequest.newBuilder(URI.create(normalizedUrl));
     }
 
     /**

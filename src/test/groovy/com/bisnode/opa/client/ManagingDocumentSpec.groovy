@@ -20,7 +20,7 @@ class ManagingDocumentSpec extends Specification {
 
     private static int PORT = 8181;
 
-    private String host = "http://localhost:$PORT"
+    private String url = "http://localhost:$PORT"
     @Shared
     private WireMockServer wireMockServer = new WireMockServer(PORT)
     @Subject
@@ -37,8 +37,7 @@ class ManagingDocumentSpec extends Specification {
     }
 
     def setup() {
-        client = OpaClient.builder().opaConfiguration(host).build();
-
+        client = OpaClient.builder().opaConfiguration(url).build()
     }
 
     def 'should perform successful policy create or update'() {

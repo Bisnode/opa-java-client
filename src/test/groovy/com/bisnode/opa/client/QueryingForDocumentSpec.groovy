@@ -20,7 +20,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 class QueryingForDocumentSpec extends Specification {
 
     private static int PORT = 8181
-    private static String host = "http://localhost:$PORT"
+    private static String url = "http://localhost:$PORT"
 
     @Shared
     private WireMockServer wireMockServer = new WireMockServer(PORT)
@@ -37,7 +37,7 @@ class QueryingForDocumentSpec extends Specification {
     }
 
     def setup() {
-        client = OpaClient.builder().opaConfiguration(host).build();
+        client = OpaClient.builder().opaConfiguration(url).build()
     }
 
     def 'should perform successful document evaluation'() {
