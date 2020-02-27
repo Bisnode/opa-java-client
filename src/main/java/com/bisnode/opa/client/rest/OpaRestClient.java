@@ -2,16 +2,15 @@ package com.bisnode.opa.client.rest;
 
 import com.bisnode.opa.client.OpaClientException;
 import com.bisnode.opa.client.OpaConfiguration;
+import com.bisnode.opa.client.rest.url.OpaUrl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Optional;
 
 /**
  * Class wrapping Java's HttpClient in OPA and JSON requests
@@ -35,9 +34,8 @@ public class OpaRestClient {
      * @throws OpaClientException if URL or endpoint is invalid
      */
     public HttpRequest.Builder getBasicRequestBuilder(String endpoint) {
-        String url = opaConfiguration.getUrl() + "/" + Optional.ofNullable(endpoint).orElseThrow(() -> new OpaClientException("Invalid endpoint: " + endpoint));
-        String normalizedUrl = UrlNormalizer.normalize(url).orElseThrow(() -> new OpaClientException("Invalid url: " + url));
-        return HttpRequest.newBuilder(URI.create(normalizedUrl));
+        OpaUrl url = OpaUrl.of(opaConfiguration.getUrl(), endpoint).normalized();
+        return HttpRequest.newBuilder(url.toUri());
     }
 
     /**

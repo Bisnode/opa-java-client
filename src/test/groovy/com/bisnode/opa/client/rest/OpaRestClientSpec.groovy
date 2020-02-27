@@ -38,7 +38,6 @@ class OpaRestClientSpec extends Specification {
 
     def setup() {
         client = new OpaRestClient(new OpaConfiguration(url), HttpClient.newHttpClient(), new ObjectMapper())
-
     }
 
     def 'should remove trailing slashes from request URL to OPA'() {
