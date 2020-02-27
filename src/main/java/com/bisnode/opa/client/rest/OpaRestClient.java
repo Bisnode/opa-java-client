@@ -2,12 +2,12 @@ package com.bisnode.opa.client.rest;
 
 import com.bisnode.opa.client.OpaClientException;
 import com.bisnode.opa.client.OpaConfiguration;
+import com.bisnode.opa.client.rest.url.OpaUrl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -31,9 +31,11 @@ public class OpaRestClient {
      * Create {@link java.net.http.HttpRequest.Builder} with configured url using provided endpoint
      *
      * @param endpoint desired opa endpoint
+     * @throws OpaClientException if URL or endpoint is invalid
      */
     public HttpRequest.Builder getBasicRequestBuilder(String endpoint) {
-        return HttpRequest.newBuilder(URI.create(opaConfiguration.getUrl() + endpoint));
+        OpaUrl url = OpaUrl.of(opaConfiguration.getUrl(), endpoint).normalized();
+        return HttpRequest.newBuilder(url.toUri());
     }
 
     /**

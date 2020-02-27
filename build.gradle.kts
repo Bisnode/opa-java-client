@@ -18,6 +18,7 @@ java {
 }
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.2")
+    implementation("org.slf4j:slf4j-api:1.7.30")
 
     testImplementation("org.codehaus.groovy:groovy-all:2.5.9")
     testImplementation(platform("org.spockframework:spock-bom:2.0-M1-groovy-2.5"))
