@@ -26,7 +26,7 @@ class OpaRestClientSpec extends Specification {
     @Shared
     private WireMockServer wireMockServer = new WireMockServer(PORT)
     @Subject
-    private OpaRestClient client
+    private OpaRestClient client = new OpaRestClient(new OpaConfiguration(url), HttpClient.newHttpClient(), new ObjectMapper())
 
     def setupSpec() {
         wireMockServer.start()
@@ -34,10 +34,6 @@ class OpaRestClientSpec extends Specification {
 
     def cleanupSpec() {
         wireMockServer.stop()
-    }
-
-    def setup() {
-        client = new OpaRestClient(new OpaConfiguration(url), HttpClient.newHttpClient(), new ObjectMapper())
     }
 
     def 'should remove trailing slashes from request URL to OPA'() {

@@ -19,13 +19,13 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 
 class ManagingPolicySpec extends Specification {
 
-    private static int PORT = 8181;
+    private static int PORT = 8181
     private static String url = "http://localhost:$PORT"
 
     @Shared
     private WireMockServer wireMockServer = new WireMockServer(PORT)
     @Subject
-    private OpaPolicyApi client
+    private OpaPolicyApi client = OpaClient.builder().opaConfiguration(url).build()
 
     def POLICY = """package example
                     default allow = false 
@@ -40,10 +40,6 @@ class ManagingPolicySpec extends Specification {
 
     def cleanupSpec() {
         wireMockServer.stop()
-    }
-
-    def setup() {
-        client = OpaClient.builder().opaConfiguration(url).build()
     }
 
     def 'should perform successful policy create or update'() {

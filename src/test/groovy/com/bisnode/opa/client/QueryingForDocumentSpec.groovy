@@ -26,7 +26,7 @@ class QueryingForDocumentSpec extends Specification {
     private WireMockServer wireMockServer = new WireMockServer(PORT)
 
     @Subject
-    private OpaQueryApi client
+    private OpaQueryApi client = OpaClient.builder().opaConfiguration(url).build()
 
     def setupSpec() {
         wireMockServer.start()
@@ -34,10 +34,6 @@ class QueryingForDocumentSpec extends Specification {
 
     def cleanupSpec() {
         wireMockServer.stop()
-    }
-
-    def setup() {
-        client = OpaClient.builder().opaConfiguration(url).build()
     }
 
     def 'should perform successful document evaluation'() {
