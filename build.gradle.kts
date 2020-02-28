@@ -8,6 +8,7 @@ plugins {
     java
     `java-library`
     `maven-publish`
+    maven
 }
 
 java {
@@ -24,6 +25,10 @@ dependencies {
     testImplementation(platform("org.spockframework:spock-bom:2.0-M1-groovy-2.5"))
     testImplementation("org.spockframework:spock-core")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.26.0")
+}
+
+repositories {
+    mavenCentral()
 }
 
 tasks.test {
