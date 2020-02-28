@@ -1,6 +1,6 @@
 import org.gradle.api.JavaVersion.VERSION_11
 
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 group = "com.bisnode.opa"
 
 val ossrhUsername: String? by project
