@@ -3,8 +3,8 @@ import org.gradle.api.JavaVersion.VERSION_11
 version = "0.0.1-SNAPSHOT"
 group = "com.bisnode.opa"
 
-val ossrhUsername: String by project
-val ossrhPassword: String by project
+val ossrhUsername: String? by project
+val ossrhPassword: String? by project
 
 plugins {
     groovy
