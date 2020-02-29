@@ -1,4 +1,6 @@
 # opa-java-client
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client)
+
 OPA java client is a wrapper for OPA rest API. The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
  - creating documents
  - creating policies
@@ -11,12 +13,12 @@ Add library using maven:
 <dependency>
     <groupId>com.bisnode.opa</groupId>
     <artifactId>opa-java-client</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>{version}</version>
 </dependency>
 ```
 or Gradle
 ```groovy
-implementation 'com.bisnode.opa:opa-java-client:0.1.0-SNAPSHOT'
+implementation 'com.bisnode.opa:opa-java-client:{version}'
 ```
 
 ## Usage
