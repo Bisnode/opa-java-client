@@ -22,6 +22,8 @@ implementation 'com.bisnode.opa:opa-java-client:{version}'
 ```
 
 ## Usage
+Our library is using Jackson for (de)serialization so, objects that you are passing/retrieving using this client should have either proper Jackson-friendly configuration or - the solution working in most cases - getters and setters for fields you want to pass/retrieve to/from OPA. 
+ [More information about Jackson](https://github.com/FasterXML/jackson-docs).
 
 ### Query for document
 ```java
