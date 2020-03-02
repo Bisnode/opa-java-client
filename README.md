@@ -64,7 +64,6 @@ Available interface projections:
 - `OpaDataApi`
 
 ## Developing and building
-Library is using Lombok, so if you are using Intellij Idea, it's recommended to use Lombok Intellij plugin. 
 Build process and dependency management is done using Gradle.
 Tests are written in spock.
 
