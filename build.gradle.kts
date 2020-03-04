@@ -75,6 +75,7 @@ publishing {
     }
     repositories {
         maven {
+            name = "OSSRH"
             credentials {
                 username = ossrhUsername
                 password = ossrhPassword
@@ -87,5 +88,8 @@ publishing {
 }
 
 signing {
+    val signingKey = findProperty("signingKey") as String?
+    val signingPassword = findProperty("signingPassword") as String?
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["mavenJava"])
 }
