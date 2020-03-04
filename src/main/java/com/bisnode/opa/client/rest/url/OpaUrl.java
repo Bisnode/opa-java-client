@@ -57,7 +57,7 @@ public class OpaUrl {
                 .andThen(removeTrailingSlash())
                 .apply(inputUrl.trim());
         if (!inputUrl.equals(normalized)) {
-            log.warn("Supplied URL [{}] is malformed, has to be normalized", inputUrl);
+            log.debug("Supplied URL [{}] is malformed, has to be normalized", inputUrl);
         }
         return normalized;
     }
