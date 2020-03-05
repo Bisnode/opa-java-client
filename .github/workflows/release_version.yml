@@ -20,4 +20,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signingKey }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signingPassword }}
         with:
-          arguments: publishAllPublicationsToOSSRHRepository -PossrhUsername=${{ secrets.ossrhUsername }} -PossrhPassword=${{ secrets.ossrhPassword }}
+          arguments: publishAllPublicationsToOSSRHRepository -PossrhUsername=${{ secrets.ossrhUsername }} -PossrhPassword=${{ secrets.ossrhPassword }} -Dorg.gradle.internal.publish.checksums.insecure=true
