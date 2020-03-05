@@ -1,10 +1,8 @@
 import org.gradle.api.JavaVersion.VERSION_11
+import java.util.*
 
-version = "0.0.1"
+version = "0.0.2"
 group = "com.bisnode.opa"
-
-val ossrhUsername: String? by project
-val ossrhPassword: String? by project
 
 plugins {
     groovy
@@ -75,6 +73,8 @@ publishing {
     }
     repositories {
         maven {
+            val ossrhUsername: String? by project
+            val ossrhPassword: String? by project
             name = "OSSRH"
             credentials {
                 username = ossrhUsername
@@ -88,8 +88,11 @@ publishing {
 }
 
 signing {
-    val signingKey = findProperty("signingKey") as String?
-    val signingPassword = findProperty("signingPassword") as String?
-    useInMemoryPgpKeys(signingKey, signingPassword)
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    val decodedKey = signingKey
+        ?.let { Base64.getDecoder().decode(signingKey) }
+        ?.let { String(it) }
+    useInMemoryPgpKeys(decodedKey, signingPassword)
     sign(publishing.publications["mavenJava"])
 }
