@@ -14,6 +14,7 @@ import com.bisnode.opa.client.rest.ObjectMapperFactory;
 import com.bisnode.opa.client.rest.OpaRestClient;
 
 import java.net.http.HttpClient;
+import java.util.Objects;
 
 /**
  * Opa client featuring {@link OpaDataApi}, {@link OpaQueryApi} and {@link OpaPolicyApi}
@@ -73,7 +74,10 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
         }
 
         public OpaClient build() {
-            HttpClient httpClient = HttpClient.newHttpClient();
+            Objects.requireNonNull(opaConfiguration, "build() called without opaConfiguration provided");
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .version(opaConfiguration.getHttpVersion())
+                    .build();
             OpaRestClient opaRestClient = new OpaRestClient(opaConfiguration, httpClient, ObjectMapperFactory.getInstance().create());
             return new OpaClient(new OpaQueryClient(opaRestClient), new OpaDataClient(opaRestClient), new OpaPolicyClient(opaRestClient));
         }
