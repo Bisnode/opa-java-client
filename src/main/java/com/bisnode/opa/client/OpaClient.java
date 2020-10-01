@@ -13,7 +13,6 @@ import com.bisnode.opa.client.query.QueryForDocumentRequest;
 import com.bisnode.opa.client.rest.ObjectMapperFactory;
 import com.bisnode.opa.client.rest.OpaRestClient;
 
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.util.Objects;
 
@@ -77,9 +76,7 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
         public OpaClient build() {
             Objects.requireNonNull(opaConfiguration, "build() called without opaConfiguration provided");
             HttpClient httpClient = HttpClient.newBuilder()
-                    .version("https".equals(URI.create(opaConfiguration.getUrl()).getScheme()) ?
-                            HttpClient.Version.HTTP_2 :
-                            HttpClient.Version.HTTP_1_1)
+                    .version(opaConfiguration.getHttpVersion())
                     .build();
             OpaRestClient opaRestClient = new OpaRestClient(opaConfiguration, httpClient, ObjectMapperFactory.getInstance().create());
             return new OpaClient(new OpaQueryClient(opaRestClient), new OpaDataClient(opaRestClient), new OpaPolicyClient(opaRestClient));
