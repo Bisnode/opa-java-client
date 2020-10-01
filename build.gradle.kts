@@ -23,6 +23,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.2")
     implementation("org.slf4j:slf4j-api:1.7.30")
 
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.7.0")
     testImplementation("org.codehaus.groovy:groovy-all:2.5.7")
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.26.0")
@@ -35,6 +37,7 @@ repositories {
 tasks.test {
     useJUnitPlatform()
 }
+
 tasks.javadoc {
     source = sourceSets["main"].allJava
 }
