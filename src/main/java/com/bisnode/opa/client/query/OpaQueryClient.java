@@ -41,6 +41,8 @@ public class OpaQueryClient implements OpaQueryApi {
                 throw new OpaClientException(String.format(EMPTY_RESULT_ERROR_MESSAGE, queryForDocumentRequest.getPath()));
             }
             return result;
+        } catch (OpaClientException exception) {
+            throw exception;
         } catch (Exception e) {
             throw new OpaClientException(e);
         }

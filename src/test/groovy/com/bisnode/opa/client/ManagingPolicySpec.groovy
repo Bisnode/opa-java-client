@@ -2,7 +2,9 @@ package com.bisnode.opa.client
 
 import com.bisnode.opa.client.policy.OpaPolicy
 import com.bisnode.opa.client.policy.OpaPolicyApi
+import com.bisnode.opa.client.query.OpaQueryApi
 import com.bisnode.opa.client.rest.ContentType
+import com.bisnode.opa.client.rest.OpaServerConnectionException
 import com.github.tomakehurst.wiremock.WireMockServer
 import spock.lang.Shared
 import spock.lang.Specification
@@ -83,5 +85,17 @@ class ManagingPolicySpec extends Specification {
                   .withHeader(ContentType.HEADER_NAME, equalTo(TEXT_PLAIN)))
         where:
           status << [400, 500]
+    }
+
+    def 'should throw OpaServerConnectionException when server is down'() {
+        given:
+          def policyId = '12345'
+          def fakeUrl = 'http://localhost:8182'
+          OpaQueryApi newClient = OpaClient.builder().opaConfiguration(fakeUrl).build()
+        when:
+          newClient.createOrUpdatePolicy(new OpaPolicy(policyId, POLICY))
+        then:
+          thrown(OpaServerConnectionException)
+
     }
 }

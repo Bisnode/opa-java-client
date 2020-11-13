@@ -2,7 +2,9 @@ package com.bisnode.opa.client
 
 import com.bisnode.opa.client.data.OpaDataApi
 import com.bisnode.opa.client.data.OpaDocument
+import com.bisnode.opa.client.query.OpaQueryApi
 import com.bisnode.opa.client.rest.ContentType
+import com.bisnode.opa.client.rest.OpaServerConnectionException
 import com.github.tomakehurst.wiremock.WireMockServer
 import spock.lang.Shared
 import spock.lang.Specification
@@ -77,5 +79,18 @@ class ManagingDocumentSpec extends Specification {
                   .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON)))
         where:
           status << [400, 404, 500]
+    }
+
+
+    def 'should throw OpaServerConnectionException when server is down'() {
+        given:
+          def documentPath = 'somePath'
+          def fakeUrl = 'http://localhost:8182'
+          OpaQueryApi newClient = OpaClient.builder().opaConfiguration(fakeUrl).build()
+        when:
+          newClient.createOrOverwriteDocument(new OpaDocument(documentPath, DOCUMENT))
+        then:
+          thrown(OpaServerConnectionException)
+
     }
 }

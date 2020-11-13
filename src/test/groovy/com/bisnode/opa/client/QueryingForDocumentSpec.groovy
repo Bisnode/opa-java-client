@@ -3,6 +3,7 @@ package com.bisnode.opa.client
 import com.bisnode.opa.client.query.OpaQueryApi
 import com.bisnode.opa.client.query.QueryForDocumentRequest
 import com.bisnode.opa.client.rest.ContentType
+import com.bisnode.opa.client.rest.OpaServerConnectionException
 import com.github.tomakehurst.wiremock.WireMockServer
 import spock.lang.Shared
 import spock.lang.Specification
@@ -172,6 +173,18 @@ class QueryingForDocumentSpec extends Specification {
           client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
         then:
           thrown(OpaClientException)
+
+    }
+
+    def 'should throw OpaServerConnectionException when server is down'() {
+        given:
+          def path = 'someDocument'
+          def fakeUrl = 'http://localhost:8182'
+          OpaQueryApi newClient = OpaClient.builder().opaConfiguration(fakeUrl).build()
+        when:
+          newClient.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
+        then:
+          thrown(OpaServerConnectionException)
 
     }
 

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -68,10 +69,14 @@ public class OpaRestClient {
      * @throws InterruptedException is propagated from {@link HttpClient}
      */
     public <T> HttpResponse<T> sendRequest(HttpRequest request, HttpResponse.BodyHandler<T> bodyHandler) throws IOException, InterruptedException {
-        HttpResponse<T> response = httpClient.send(request, bodyHandler);
-        if (response.statusCode() >= 300) {
-            throw new OpaClientException("Error in communication with OPA server, status code: " + response.statusCode());
+        try {
+            HttpResponse<T> response = httpClient.send(request, bodyHandler);
+            if (response.statusCode() >= 300) {
+                throw new OpaClientException("Error in communication with OPA server, status code: " + response.statusCode());
+            }
+            return response;
+        } catch (SocketException exception) {
+            throw new OpaServerConnectionException("Could not reach OPA server", exception);
         }
-        return response;
     }
 }
