@@ -98,4 +98,14 @@ class OpaRestClientSpec extends Specification {
           wireMockServer.verify(getRequestedFor(urlEqualTo('/v1/path/with/missing/slash')))
     }
 
+    def 'should remap SocketException and derivatives to OpaServerConnectionException'() {
+        given:
+          OpaRestClient restClient = new OpaRestClient(new OpaConfiguration("http://localhost:8182"), HttpClient.newHttpClient(), new ObjectMapper())
+        when:
+          def request = restClient.getBasicRequestBuilder('v1/path/with/missing/slash').GET().build()
+          restClient.sendRequest(request, HttpResponse.BodyHandlers.discarding())
+        then:
+          thrown(OpaServerConnectionException)
+    }
+
 }

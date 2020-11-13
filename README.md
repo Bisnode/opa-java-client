@@ -1,7 +1,7 @@
 # opa-java-client
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client) ![build](https://github.com/Bisnode/opa-java-client/workflows/build/badge.svg)
 
-OPA java client is a wrapper for OPA rest API. The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
+OPA java client is a wrapper for OPA REST API. The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
  - creating documents
  - creating policies
  - querying for documents
@@ -54,6 +54,8 @@ Our library is using Jackson for (de)serialization so, objects that you are pass
 
 ### Error handling
 Error handling is done via exceptions. This means that if any error occurs, runtime exception which is subclass of `OpaClientException` is thrown. For now, there is simple error message returned.
+
+`OpaServerConnectionException` is thrown when connection problems with OPA server occur.
 
 ### Interface segregation
 Every OPA (Data, Policy, Query) API has it's own interface. So, for example, if you want to use client only for querying, you can use `OpaQueryApi` as projection. Thanks to that, in your code there will be exposed only methods that are needed by you, while not allowing to mess with policies and data.

@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion.VERSION_11
 import java.util.*
 
-version = "0.1.0"
+version = "0.2.0-SNAPSHOT"
 group = "com.bisnode.opa"
 
 plugins {

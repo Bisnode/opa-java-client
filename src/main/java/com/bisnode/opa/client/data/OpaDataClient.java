@@ -28,6 +28,8 @@ public class OpaDataClient implements OpaDataApi {
                     .build();
 
             opaRestClient.sendRequest(request, HttpResponse.BodyHandlers.discarding());
+        } catch (OpaClientException exception) {
+            throw exception;
         } catch (Exception e) {
             throw new OpaClientException(e);
         }
