@@ -1,7 +1,7 @@
 # opa-java-client
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.bisnode.opa/opa-java-client) ![build](https://github.com/Bisnode/opa-java-client/workflows/build/badge.svg)
 
-OPA java client is a wrapper for OPA REST API. The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
+OPA java client is a wrapper for [OPA REST API](https://www.openpolicyagent.org/docs/latest/rest-api/). The goal was to create client that is lightweight and framework independent. It's built for current Bisnode needs, including:
  - creating documents
  - creating policies
  - querying for documents
@@ -69,5 +69,6 @@ Available interface projections:
 Build process and dependency management is done using Gradle.
 Tests are written in spock.
 
+## Contribution
 
-
+Interested in contributing? Please, start by reading [this document](https://github.com/Bisnode/opa-java-client/blob/master/CONTRIBUTING.md).
