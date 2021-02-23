@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  opa:
+    image: openpolicyagent/opa:latest
+    ports:
+      - 8181:8181
+    volumes:
+      - ./src/opa/policies:/src/opa/policies
+    command:
+      - "run"
+      - "--watch"
+      - "--server"
+      - "--log-level=debug"
+      - "--log-format=text"
+      - "src/opa/policies"
