@@ -35,6 +35,8 @@ Our library is using Jackson for (de)serialization so, objects that you are pass
         
         // Do whatever you like with the response
 ```
+####Example
+Example project is in `examples/query-for-document` directory.
 ### Create policy
 ```java
         OpaPolicyApi client = OpaClient.builder()
