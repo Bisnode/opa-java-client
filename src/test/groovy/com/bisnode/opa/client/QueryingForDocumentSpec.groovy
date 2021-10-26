@@ -5,6 +5,7 @@ import com.bisnode.opa.client.query.QueryForDocumentRequest
 import com.bisnode.opa.client.rest.ContentType
 import com.bisnode.opa.client.rest.OpaServerConnectionException
 import com.github.tomakehurst.wiremock.WireMockServer
+import org.apache.commons.lang3.reflect.TypeUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
@@ -120,6 +121,31 @@ class QueryingForDocumentSpec extends Specification {
                   .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON)))
         where:
           status << [400, 404, 500]
+    }
+
+
+
+    def 'should handle collection with generics in response'() {
+        given:
+        def path = 'someDocument'
+        def endpoint = "/v1/data/$path"
+
+
+        wireMockServer
+                .stubFor(post(urlEqualTo(endpoint))
+                        .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                .withBody('{"result": [{"allow": true},{"allow": false}]}')))
+        when:
+
+            def type = TypeUtils.parameterize(List.class,ValidationResult.class);
+            def result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), type)
+        then:
+            def element = ((List)result).get(0)
+            element.getClass() == ValidationResult.class
+            element.allow
     }
 
     def 'should handle nested classes in response'() {
