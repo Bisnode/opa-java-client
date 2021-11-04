@@ -141,10 +141,9 @@ class QueryingForDocumentSpec extends Specification {
         when:
 
             def type = TypeUtils.parameterize(List.class,ValidationResult.class);
-            def result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), type)
+            List<ValidationResult> result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), type)
         then:
-            def element = result[0]
-            element.getClass() == ValidationResult.class
+            ValidationResult element = result[0]
             element.allow
     }
 
