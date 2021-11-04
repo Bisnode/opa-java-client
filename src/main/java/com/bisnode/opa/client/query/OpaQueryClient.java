@@ -6,7 +6,10 @@ import com.bisnode.opa.client.rest.OpaRestClient;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.http.HttpRequest;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -22,8 +25,25 @@ public class OpaQueryClient implements OpaQueryApi {
         this.opaRestClient = opaRestClient;
     }
 
-    @Override
+    /**
+     * <p>Executes simple query for document
+     * </p>
+     *
+     * @param queryForDocumentRequest request containing information needed for querying
+     * @param responseType            class of response to be returned
+     * @return response from OPA mapped to specified class
+     * @since 0.0.1
+     */
     public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, Class<R> responseType) {
+        return internalQueryForDocument(queryForDocumentRequest, responseType);
+    }
+
+    @Override
+    public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, ParameterizedType responseType) {
+        return internalQueryForDocument(queryForDocumentRequest, responseType);
+    }
+
+    private <R> R internalQueryForDocument(QueryForDocumentRequest queryForDocumentRequest, Type responseType) {
         try {
             OpaQueryForDocumentRequest opaQueryForDocumentRequest = new OpaQueryForDocumentRequest(queryForDocumentRequest.getInput());
 
@@ -32,7 +52,8 @@ public class OpaQueryClient implements OpaQueryApi {
                     .POST(opaRestClient.getJsonBodyPublisher(opaQueryForDocumentRequest))
                     .build();
 
-            JavaType opaResponseType = TypeFactory.defaultInstance().constructParametricType(OpaQueryForDocumentResponse.class, responseType);
+            JavaType opaResponseType = getResponseJavaType(responseType);
+
             R result = opaRestClient.sendRequest(request, opaRestClient.<OpaQueryForDocumentResponse<R>>getJsonBodyHandler(opaResponseType))
                     .body()
                     .get()
@@ -46,5 +67,26 @@ public class OpaQueryClient implements OpaQueryApi {
         } catch (Exception e) {
             throw new OpaClientException(e);
         }
+    }
+
+    private JavaType getResponseJavaType(Type responseType)
+            throws ClassNotFoundException {
+        JavaType opaResponseType;
+        if (responseType instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) responseType;
+            Class<?>[] classes = Arrays.stream(parameterizedType.getActualTypeArguments()).map(type -> {
+                try {
+                    return Class.forName(type.getTypeName());
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalArgumentException("Cannot find class configured in the responseType ".concat(type.getTypeName()), e);
+                }
+            }).toArray(Class[]::new);
+
+            JavaType opaType = TypeFactory.defaultInstance().constructParametricType(Class.forName(parameterizedType.getRawType().getTypeName()), classes);
+            opaResponseType = TypeFactory.defaultInstance().constructParametricType(OpaQueryForDocumentResponse.class, opaType);
+        } else {
+            opaResponseType = TypeFactory.defaultInstance().constructParametricType(OpaQueryForDocumentResponse.class, Class.forName(responseType.getTypeName()));
+        }
+        return opaResponseType;
     }
 }

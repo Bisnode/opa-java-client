@@ -13,6 +13,7 @@ import com.bisnode.opa.client.query.QueryForDocumentRequest;
 import com.bisnode.opa.client.rest.ObjectMapperFactory;
 import com.bisnode.opa.client.rest.OpaRestClient;
 
+import java.lang.reflect.ParameterizedType;
 import java.net.http.HttpClient;
 import java.util.Objects;
 
@@ -36,6 +37,13 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
      */
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * @see com.bisnode.opa.client.query.OpaQueryApi
+     */
+    public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, ParameterizedType responseType) {
+        return this.opaQueryApi.queryForDocument(queryForDocumentRequest, responseType);
     }
 
     /**
