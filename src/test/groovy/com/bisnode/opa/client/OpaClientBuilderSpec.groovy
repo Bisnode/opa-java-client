@@ -51,4 +51,28 @@ class OpaClientBuilderSpec extends Specification {
         then:
         1 * objectMapper.writeValueAsString(_)
     }
+
+    def 'should revert to default ObjectMapper if null ObjectMapper supplied'() {
+        given:
+        def path = 'someDocument'
+        def endpoint = "/v1/data/$path"
+        wireMockServer
+                .stubFor(post(urlEqualTo(endpoint))
+                        .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                .withBody('{"result": {"authorized": true}}')))
+        def opaClient = OpaClient.builder()
+                .opaConfiguration(url)
+                .objectMapper(null)
+                .build();
+
+        when:
+        def result = opaClient.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), Map.class)
+
+        then:
+        result != null
+        result.get("authorized") == true
+    }
 }
