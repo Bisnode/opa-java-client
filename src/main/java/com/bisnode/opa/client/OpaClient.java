@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.ParameterizedType;
 import java.net.http.HttpClient;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Opa client featuring {@link OpaDataApi}, {@link OpaQueryApi} and {@link OpaPolicyApi}
@@ -83,7 +84,7 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
             return this;
         }
 
-        public Builder objectMapperConfiguration(ObjectMapper objectMapper) {
+        public Builder objectMapper(ObjectMapper objectMapper) {
             this.objectMapper = objectMapper;
             return this;
         }
@@ -93,9 +94,8 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(opaConfiguration.getHttpVersion())
                     .build();
-            if(this.objectMapper == null) {
-                this.objectMapper = ObjectMapperFactory.getInstance().create();
-            }
+            ObjectMapper objectMapper = Optional.ofNullable(this.objectMapper)
+                    .orElseGet(ObjectMapperFactory.getInstance()::create);
             OpaRestClient opaRestClient = new OpaRestClient(opaConfiguration, httpClient, objectMapper);
             return new OpaClient(new OpaQueryClient(opaRestClient), new OpaDataClient(opaRestClient), new OpaPolicyClient(opaRestClient));
         }

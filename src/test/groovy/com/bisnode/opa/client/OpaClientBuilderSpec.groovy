@@ -27,7 +27,7 @@ class OpaClientBuilderSpec extends Specification {
         wireMockServer.stop()
     }
 
-    def 'configure OpaClient with custom ObjectMapper'() {
+    def 'should configure OpaClient with custom ObjectMapper'() {
 
         given:
         def objectMapper = Spy(ObjectMapper)
@@ -42,7 +42,7 @@ class OpaClientBuilderSpec extends Specification {
                                 .withBody('{"result": {"authorized": true}}')))
         def opaClient = OpaClient.builder()
                 .opaConfiguration(url)
-                .objectMapperConfiguration(objectMapper)
+                .objectMapper(objectMapper)
                 .build();
 
         when:
