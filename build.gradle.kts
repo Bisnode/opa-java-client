@@ -27,6 +27,7 @@ dependencies {
     testImplementation("org.codehaus.groovy:groovy-all:2.5.15")
     testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.31.0")
+    testImplementation("net.bytebuddy:byte-buddy:1.12.12")
 }
 
 repositories {

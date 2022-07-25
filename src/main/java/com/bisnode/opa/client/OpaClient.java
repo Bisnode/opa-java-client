@@ -12,6 +12,7 @@ import com.bisnode.opa.client.query.OpaQueryClient;
 import com.bisnode.opa.client.query.QueryForDocumentRequest;
 import com.bisnode.opa.client.rest.ObjectMapperFactory;
 import com.bisnode.opa.client.rest.OpaRestClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.net.http.HttpClient;
@@ -72,6 +73,7 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
      */
     public static class Builder {
         private OpaConfiguration opaConfiguration;
+        private ObjectMapper objectMapper;
 
         /**
          * @param url URL including protocol and port
@@ -81,12 +83,20 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
             return this;
         }
 
+        public Builder objectMapperConfiguration(ObjectMapper objectMapper) {
+            this.objectMapper = objectMapper;
+            return this;
+        }
+
         public OpaClient build() {
             Objects.requireNonNull(opaConfiguration, "build() called without opaConfiguration provided");
             HttpClient httpClient = HttpClient.newBuilder()
                     .version(opaConfiguration.getHttpVersion())
                     .build();
-            OpaRestClient opaRestClient = new OpaRestClient(opaConfiguration, httpClient, ObjectMapperFactory.getInstance().create());
+            if(this.objectMapper == null) {
+                this.objectMapper = ObjectMapperFactory.getInstance().create();
+            }
+            OpaRestClient opaRestClient = new OpaRestClient(opaConfiguration, httpClient, objectMapper);
             return new OpaClient(new OpaQueryClient(opaRestClient), new OpaDataClient(opaRestClient), new OpaPolicyClient(opaRestClient));
         }
     }
