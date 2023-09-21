@@ -19,7 +19,7 @@ java {
     withSourcesJar()
 }
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     implementation("org.slf4j:slf4j-api:1.7.32")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
