@@ -1,7 +1,7 @@
 import org.gradle.api.JavaVersion.VERSION_11
 import java.util.*
 
-version = "0.3.2"
+version = "0.4.0"
 group = "com.bisnode.opa"
 
 plugins {
@@ -19,14 +19,15 @@ java {
     withSourcesJar()
 }
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     implementation("org.slf4j:slf4j-api:1.7.32")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testImplementation("org.junit.vintage:junit-vintage-engine:5.8.1")
-    testImplementation("org.codehaus.groovy:groovy-all:2.5.15")
-    testImplementation("org.spockframework:spock-core:1.3-groovy-2.5")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.0")
+    testImplementation("org.codehaus.groovy:groovy-all:3.0.19")
+    testImplementation("org.spockframework:spock-core:2.3-groovy-3.0")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.31.0")
+    testImplementation("net.bytebuddy:byte-buddy:1.14.8")
 }
 
 repositories {
