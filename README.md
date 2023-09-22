@@ -27,14 +27,31 @@ Our library is using Jackson for (de)serialization so, objects that you are pass
 
 ### Query for document
 ```java
-        OpaQueryApi client = OpaClient.builder()
-                                .opaConfiguration("http://localhost:8181")
-                                .build();
+OpaQueryApi client = OpaClient.builder()
+                        .opaConfiguration("http://localhost:8181")
+                        .build();
 
-        DesiredResponse response = client.queryForDocument(new QueryForDocumentRequest(yourDTO, "path/to/document"), DesiredResponse.class);
-        
-        // Do whatever you like with the response
+DesiredResponse response = client.queryForDocument(new QueryForDocumentRequest(yourDTO, "path/to/document"), DesiredResponse.class);
+
+// Do whatever you like with the response
 ```
+
+### Query for a list of documents
+
+This requires [commons-lang3](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3) to be present on your classpath.
+
+```java
+OpaQueryApi client = OpaClient.builder()
+        .opaConfiguration("http://localhost:8181")
+        .build();
+        
+ParameterizedType type = TypeUtils.parameterize(List.class, DesiredResponse.class);
+        
+List<DesiredResponse> response = client.queryForDocument(new QueryForDocumentRequest(yourDTO, "path/to/document"), type);
+
+// Do whatever you like with the response
+```
+
 ####Example
 Example project is in `examples/query-for-document` directory.
 ### Create policy
