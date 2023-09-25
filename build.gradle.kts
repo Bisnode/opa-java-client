@@ -20,7 +20,7 @@ java {
 }
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation("org.slf4j:slf4j-api:2.0.9")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testImplementation("org.junit.vintage:junit-vintage-engine:5.10.0")
