@@ -39,6 +39,11 @@ public class OpaQueryClient implements OpaQueryApi {
     }
 
     @Override
+    public Boolean queryForBoolean(QueryForDocumentRequest queryForDocumentRequest) {
+        return internalQueryForBoolean(queryForDocumentRequest);
+    }
+
+    @Override
     public <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, ParameterizedType responseType) {
         return internalQueryForDocument(queryForDocumentRequest, responseType);
     }
@@ -68,6 +73,34 @@ public class OpaQueryClient implements OpaQueryApi {
             throw new OpaClientException(e);
         }
     }
+
+    private Boolean internalQueryForBoolean(QueryForDocumentRequest queryForDocumentRequest) {
+        try {
+            OpaQueryForDocumentRequest opaQueryForDocumentRequest = new OpaQueryForDocumentRequest(queryForDocumentRequest.getInput());
+
+            HttpRequest request = opaRestClient.getBasicRequestBuilder(EVALUATE_POLICY_ENDPOINT + queryForDocumentRequest.getPath())
+                    .header(ContentType.HEADER_NAME, ContentType.Values.APPLICATION_JSON)
+                    .POST(opaRestClient.getJsonBodyPublisher(opaQueryForDocumentRequest))
+                    .build();
+
+            JavaType opaResponseType = getResponseJavaType(Boolean.class);
+            OpaQueryForDocumentResponse<Boolean> result = opaRestClient.sendRequest(request, opaRestClient.<OpaQueryForDocumentResponse<Boolean>>getJsonBodyHandler(opaResponseType))
+                    .body()
+                    .get();
+
+            if (Objects.isNull(result)) {
+                return false;
+            }
+
+            return result.getResult();
+
+        } catch (OpaClientException exception) {
+            throw exception;
+        } catch (Exception e) {
+            throw new OpaClientException(e);
+        }
+    }
+
 
     private JavaType getResponseJavaType(Type responseType)
             throws ClassNotFoundException {

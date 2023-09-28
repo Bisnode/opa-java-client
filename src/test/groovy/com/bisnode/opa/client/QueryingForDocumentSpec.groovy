@@ -140,7 +140,7 @@ class QueryingForDocumentSpec extends Specification {
                                 .withBody('{"result": [{"allow": true},{"allow": false}]}')))
         when:
 
-            def type = TypeUtils.parameterize(List.class,ValidationResult.class);
+            def type = TypeUtils.parameterize(List.class,ValidationResult.class)
             List<ValidationResult> result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), type)
         then:
             ValidationResult element = result[0]
@@ -165,6 +165,58 @@ class QueryingForDocumentSpec extends Specification {
           result.validationResult.allow
     }
 
+    def 'should handle boolean true response'() {
+        given:
+        def path = 'someDocument'
+        def endpoint = "/v1/data/$path"
+        wireMockServer
+                .stubFor(post(urlEqualTo(endpoint))
+                        .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                .withBody('{"result": true}')))
+        when:
+        def result = client.queryForBoolean(new QueryForDocumentRequest([shouldPass: true], path))
+        then:
+        result
+    }
+
+    def 'should handle empty response as boolean false response'() {
+        given:
+        def path = 'someDocument'
+        def endpoint = "/v1/data/$path"
+        wireMockServer
+                .stubFor(post(urlEqualTo(endpoint))
+                        .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                .withBody('{}')))
+        when:
+        def result = client.queryForBoolean(new QueryForDocumentRequest([shouldPass: true], path))
+        then:
+        !result
+    }
+
+    def 'should get exception when receiving non-boolean'() {
+        given:
+        def path = 'someDocument'
+        def endpoint = "/v1/data/$path"
+        wireMockServer
+                .stubFor(post(urlEqualTo(endpoint))
+                        .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                .withBody('{"result": { "something": "else"}}')))
+        when:
+          def result = client.queryForBoolean(new QueryForDocumentRequest([shouldPass: true], path))
+        then:
+          thrown(OpaClientException)
+
+    }
+
     def 'should map missing properties to null'() {
         given:
           def path = 'someDocument'
@@ -177,7 +229,7 @@ class QueryingForDocumentSpec extends Specification {
                                   .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
                                   .withBody('{"result": {"validationResult": {"authorized": true}}}')))
         when:
-          def result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
+          client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
         then:
           result.getClass() == ComplexValidationResult.class
           result.validationResult.allow == null
@@ -219,6 +271,10 @@ class QueryingForDocumentSpec extends Specification {
 
     static final class ComplexValidationResult {
         ValidationResult validationResult
+    }
+
+    static final class BooleanValidationResult {
+        Boolean result
     }
 
 }

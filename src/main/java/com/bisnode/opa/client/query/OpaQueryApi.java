@@ -28,4 +28,14 @@ public interface OpaQueryApi {
      * @since 0.0.1
      */
     <R> R queryForDocument(QueryForDocumentRequest queryForDocumentRequest, Class<R> responseType);
+
+    /**
+     * <p>Executes simple query for boolean result
+     * </p>
+     *
+     * @param queryForDocumentRequest request containing information needed for querying
+     * @return response from OPA mapped to boolean
+     * @since 0.4.2
+     */
+    Boolean queryForBoolean(QueryForDocumentRequest queryForDocumentRequest);
 }

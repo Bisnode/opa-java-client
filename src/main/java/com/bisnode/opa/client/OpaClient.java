@@ -55,6 +55,11 @@ public class OpaClient implements OpaQueryApi, OpaDataApi, OpaPolicyApi {
         return this.opaQueryApi.queryForDocument(queryForDocumentRequest, responseType);
     }
 
+    @Override
+    public Boolean queryForBoolean(QueryForDocumentRequest queryForDocumentRequest) {
+        return this.opaQueryApi.queryForBoolean(queryForDocumentRequest);
+    }
+
     /**
      * @see com.bisnode.opa.client.data.OpaDataApi
      */
