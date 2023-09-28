@@ -211,7 +211,7 @@ class QueryingForDocumentSpec extends Specification {
                                 .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
                                 .withBody('{"result": { "something": "else"}}')))
         when:
-          def result = client.queryForBoolean(new QueryForDocumentRequest([shouldPass: true], path))
+          client.queryForBoolean(new QueryForDocumentRequest([shouldPass: true], path))
         then:
           thrown(OpaClientException)
 
