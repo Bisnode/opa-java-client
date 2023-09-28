@@ -272,9 +272,4 @@ class QueryingForDocumentSpec extends Specification {
     static final class ComplexValidationResult {
         ValidationResult validationResult
     }
-
-    static final class BooleanValidationResult {
-        Boolean result
-    }
-
 }
