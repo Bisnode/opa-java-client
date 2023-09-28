@@ -229,7 +229,7 @@ class QueryingForDocumentSpec extends Specification {
                                   .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
                                   .withBody('{"result": {"validationResult": {"authorized": true}}}')))
         when:
-          client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
+          def result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ComplexValidationResult.class)
         then:
           result.getClass() == ComplexValidationResult.class
           result.validationResult.allow == null
