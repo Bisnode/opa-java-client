@@ -19,15 +19,15 @@ java {
     withSourcesJar()
 }
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
     implementation("org.slf4j:slf4j-api:2.0.9")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
-    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.0")
-    testImplementation("org.apache.groovy:groovy:4.0.15")
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.1")
+    testImplementation("org.apache.groovy:groovy:4.0.16")
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
     testImplementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
-    testImplementation("net.bytebuddy:byte-buddy:1.14.9")
+    testImplementation("net.bytebuddy:byte-buddy:1.14.11")
 }
 
 repositories {
