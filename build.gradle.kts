@@ -23,7 +23,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.11")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
-    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.1")
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.2")
     testImplementation("org.apache.groovy:groovy:4.0.18")
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
     testImplementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
