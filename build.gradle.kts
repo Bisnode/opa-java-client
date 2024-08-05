@@ -28,7 +28,7 @@ dependencies {
     testImplementation("org.apache.groovy:groovy:4.0.21")
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
     testImplementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
-    testImplementation("net.bytebuddy:byte-buddy:1.14.14")
+    testImplementation("net.bytebuddy:byte-buddy:1.14.18")
 }
 
 repositories {
