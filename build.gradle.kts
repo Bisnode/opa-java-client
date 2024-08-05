@@ -25,7 +25,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("org.junit.vintage:junit-vintage-engine:5.10.2")
-    testImplementation("org.apache.groovy:groovy:4.0.21")
+    testImplementation("org.apache.groovy:groovy:4.0.22")
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
     testImplementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
     testImplementation("net.bytebuddy:byte-buddy:1.14.14")
