@@ -36,6 +36,37 @@ DesiredResponse response = client.queryForDocument(new QueryForDocumentRequest(y
 // Do whatever you like with the response
 ```
 
+### Setting Headers
+
+You can add headers that will be included in all requests to the OPA server:
+
+```java
+// Add a single header
+OpaClient client = OpaClient.builder()
+                     .opaConfiguration("http://localhost:8181")
+                     .header("X-API-Key", "your-api-key")
+                     .header("Authorization", "Bearer your-token")
+                     .build();
+
+// Add multiple headers at once
+Map<String, String> headers = new HashMap<>();
+headers.put("X-API-Key", "your-api-key");
+headers.put("X-Tenant-ID", "tenant-123");
+headers.put("Authorization", "Bearer your-token");
+
+OpaClient client = OpaClient.builder()
+                     .opaConfiguration("http://localhost:8181")
+                     .headers(headers)
+                     .build();
+
+// You can also combine both approaches
+OpaClient client = OpaClient.builder()
+                     .opaConfiguration("http://localhost:8181")
+                     .headers(headers)
+                     .header("X-Request-ID", "req-456")
+                     .build();
+```
+
 ### Query for a list of documents
 
 This requires [commons-lang3](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3) to be present on your classpath.

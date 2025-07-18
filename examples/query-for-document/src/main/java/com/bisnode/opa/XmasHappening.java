@@ -16,14 +16,12 @@ public class XmasHappening {
     public static final String NAME_QUERY_PATH = "name_rule/access_to_chimney";
     public static final String OPA_URL = "http://localhost:8181/";
 
-
     public static void main(String[] args) {
-
 
         List<OpaInput> sleighCrew = List.of(
                 new OpaInput("SantaClaus", 99, SantaPartyMember.SANTA.name()),
                 new OpaInput("Buddy", 17, SantaPartyMember.ELF.name()),
-                new OpaInput("Grinch",22, SantaPartyMember.GRINCH.name()),
+                new OpaInput("Grinch", 22, SantaPartyMember.GRINCH.name()),
                 new OpaInput("Rudolf", 33, SantaPartyMember.REINDEER.name()),
                 new OpaInput("Niko", 25, SantaPartyMember.REINDEER.name()));
 
@@ -31,9 +29,13 @@ public class XmasHappening {
 
     }
 
-    static void callOpa(OpaInput testInput){
+    static void callOpa(OpaInput testInput) {
         log.info("Creating query for input {}", testInput);
-        OpaQueryApi queryApi = OpaClient.builder().opaConfiguration(OPA_URL).build();
+        OpaQueryApi queryApi = OpaClient.builder()
+                .opaConfiguration(OPA_URL)
+                .header("X-API-Key", "secret-key-12345")
+                .header("X-Request-Source", "xmas-app")
+                .build();
 
         QueryForDocumentRequest ageRequest = new QueryForDocumentRequest(testInput, AGE_QUERY_PATH);
         OpaOutput ageResponse = queryApi.queryForDocument(ageRequest, OpaOutput.class);

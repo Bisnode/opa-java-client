@@ -213,6 +213,33 @@ class QueryingForDocumentSpec extends Specification {
 
     }
 
+    def 'should include headers in query requests'() {
+        given:
+          def path = 'someDocument'
+          def endpoint = "/v1/data/$path"
+          def headerName = 'X-API-Key'
+          def headerValue = 'secret-key-123'
+          def client = OpaClient.builder()
+                  .opaConfiguration(url)
+                  .header(headerName, headerValue)
+                  .build()
+          wireMockServer
+                  .stubFor(post(urlEqualTo(endpoint))
+                          .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                          .withHeader(headerName, equalTo(headerValue))
+                          .willReturn(aResponse()
+                                  .withStatus(200)
+                                  .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                  .withBody('{"result": {"allow":"true"}}')))
+        when:
+          def result = client.queryForDocument(new QueryForDocumentRequest([shouldPass: true], path), ValidationResult.class)
+        then:
+          noExceptionThrown()
+          wireMockServer.verify(postRequestedFor(urlEqualTo(endpoint))
+                  .withHeader(headerName, equalTo(headerValue)))
+          result.allow
+    }
+
     static final class ValidationResult {
         Boolean allow
     }

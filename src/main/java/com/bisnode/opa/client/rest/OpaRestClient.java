@@ -29,18 +29,25 @@ public class OpaRestClient {
     }
 
     /**
-     * Create {@link java.net.http.HttpRequest.Builder} with configured url using provided endpoint
+     * Create {@link java.net.http.HttpRequest.Builder} with configured url using
+     * provided endpoint
      *
      * @param endpoint desired opa endpoint
      * @throws OpaClientException if URL or endpoint is invalid
      */
     public HttpRequest.Builder getBasicRequestBuilder(String endpoint) {
         OpaUrl url = OpaUrl.of(opaConfiguration.getUrl(), endpoint).normalized();
-        return HttpRequest.newBuilder(url.toUri());
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder(url.toUri());
+
+        // Add headers from configuration
+        opaConfiguration.getHeaders().forEach(requestBuilder::header);
+
+        return requestBuilder;
     }
 
     /**
-     * Gets {@link java.net.http.HttpRequest.BodyPublisher} that is capable of serializing to JSON
+     * Gets {@link java.net.http.HttpRequest.BodyPublisher} that is capable of
+     * serializing to JSON
      *
      * @param body object to be serialized
      */
@@ -51,7 +58,7 @@ public class OpaRestClient {
     /**
      * Gets {@link JsonBodyHandler} that will deserialize JSON to desired class type
      *
-     * @param responseType desired  response type
+     * @param responseType desired response type
      * @param <T>          desired response type
      */
     public <T> JsonBodyHandler<T> getJsonBodyHandler(JavaType responseType) {
@@ -59,7 +66,8 @@ public class OpaRestClient {
     }
 
     /**
-     * Sends provided request and returns response mapped using {@link java.net.http.HttpResponse.BodyHandler}
+     * Sends provided request and returns response mapped using
+     * {@link java.net.http.HttpResponse.BodyHandler}
      *
      * @param request     request to be sent
      * @param bodyHandler handler that indicates how to transform incoming body
@@ -68,11 +76,13 @@ public class OpaRestClient {
      * @throws IOException          is propagated from {@link HttpClient}
      * @throws InterruptedException is propagated from {@link HttpClient}
      */
-    public <T> HttpResponse<T> sendRequest(HttpRequest request, HttpResponse.BodyHandler<T> bodyHandler) throws IOException, InterruptedException {
+    public <T> HttpResponse<T> sendRequest(HttpRequest request, HttpResponse.BodyHandler<T> bodyHandler)
+            throws IOException, InterruptedException {
         try {
             HttpResponse<T> response = httpClient.send(request, bodyHandler);
             if (response.statusCode() >= 300) {
-                throw new OpaClientException("Error in communication with OPA server, status code: " + response.statusCode());
+                throw new OpaClientException(
+                        "Error in communication with OPA server, status code: " + response.statusCode());
             }
             return response;
         } catch (SocketException exception) {

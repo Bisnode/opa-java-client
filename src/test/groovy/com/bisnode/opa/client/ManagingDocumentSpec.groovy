@@ -93,4 +93,30 @@ class ManagingDocumentSpec extends Specification {
           thrown(OpaServerConnectionException)
 
     }
+    
+    def 'should include headers in document requests'() {
+        given:
+          def documentPath = 'somePath'
+          def endpoint = "/v1/data/$documentPath"
+          def headerName = 'X-API-Key'
+          def headerValue = 'secret-key-123'
+          def client = OpaClient.builder()
+                  .opaConfiguration(url)
+                  .header(headerName, headerValue)
+                  .build()
+          wireMockServer
+                  .stubFor(put(urlEqualTo(endpoint))
+                          .withHeader(ContentType.HEADER_NAME, equalTo(APPLICATION_JSON))
+                          .withHeader(headerName, equalTo(headerValue))
+                          .willReturn(aResponse()
+                                  .withStatus(200)
+                                  .withHeader(ContentType.HEADER_NAME, APPLICATION_JSON)
+                                  .withBody('{}')))
+        when:
+          client.createOrOverwriteDocument(new OpaDocument(documentPath, DOCUMENT))
+        then:
+          noExceptionThrown()
+          wireMockServer.verify(putRequestedFor(urlEqualTo(endpoint))
+                  .withHeader(headerName, equalTo(headerValue)))
+    }
 }
